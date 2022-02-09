@@ -294,17 +294,18 @@ class IOSPlatform extends PlatformTarget
 		context.ADDL_PBX_FRAMEWORK_GROUP = "";
 
 		context.frameworkSearchPaths = [];
+		var names = [];
 
 		for (dependency in project.dependencies)
 		{
 			var name = null;
 			var path = null;
 			var fileType = null;
-
+			var sourceTree = "SDKROOT";
 			if (Path.extension(dependency.name) == "framework")
 			{
 				name = dependency.name;
-				path = "/System/Library/Frameworks/" + dependency.name;
+				path = "System/Library/Frameworks/" + dependency.name;
 				fileType = "wrapper.framework";
 			}
 			else if (Path.extension(dependency.name) == "tbd")
@@ -312,22 +313,37 @@ class IOSPlatform extends PlatformTarget
 				name = dependency.name;
 				path = "/usr/lib/" + dependency.name;
 				fileType = "sourcecode.text-based-dylib-definition";
+
+				ArrayTools.addUnique(context.frameworkSearchPaths, Path.directory(path));
 			}
 			else if (Path.extension(dependency.path) == "framework")
 			{
 				name = Path.withoutDirectory(dependency.path);
 				path = Path.tryFullPath(dependency.path);
 				fileType = "wrapper.framework";
+				sourceTree = "\"<absolute>\"";
+
+				ArrayTools.addUnique(context.frameworkSearchPaths, Path.directory(path));
 			}
 			else if (Path.extension(dependency.path) == "xcframework")
 			{
 				name = Path.withoutDirectory(dependency.path);
 				path = Path.tryFullPath(dependency.path);
 				fileType = "wrapper.xcframework";
+				sourceTree = "\"<absolute>\"";
+
+				ArrayTools.addUnique(context.frameworkSearchPaths, Path.directory(path));
 			}
 
 			if (name != null)
 			{
+				if (names.indexOf(path + name) != -1)
+				{
+					continue;
+				}
+
+				names.push(path + name);
+
 				var frameworkID = "11C0000000000018" + StringTools.getUniqueID();
 				var fileID = "11C0000000000018" + StringTools.getUniqueID();
 
@@ -336,7 +352,7 @@ class IOSPlatform extends PlatformTarget
 				context.ADDL_PBX_BUILD_FILE += "		" + frameworkID + " /* " + name + " in Frameworks */ = {isa = PBXBuildFile; fileRef = " + fileID + " /* "
 					+ name + " */; };\n";
 				context.ADDL_PBX_FILE_REFERENCE += "		" + fileID + " /* " + name + " */ = {isa = PBXFileReference; lastKnownFileType = \"" + fileType
-					+ "\"; name = \"" + name + "\"; path = \"" + path + "\"; sourceTree = SDKROOT; };\n";
+					+ "\"; name = \"" + name + "\"; path = \"" + path + "\"; sourceTree = " + sourceTree + "; };\n";
 				context.ADDL_PBX_FRAMEWORKS_BUILD_PHASE += "				" + frameworkID + " /* " + name + " in Frameworks */,\n";
 				context.ADDL_PBX_FRAMEWORK_GROUP += "				" + fileID + " /* " + name + " */,\n";
 			}

@@ -620,8 +620,8 @@ class IOSPlatform extends PlatformTarget
 				context.IOS_LAUNCH_STORYBOARD = Path.withoutDirectory(Path.withoutExtension(sb.path));
 			}
 		}
-		else
-		{
+		//else
+		//{
 			var splashSizes:Array<SplashSize> = [
 				{name: "Default.png", w: 320, h: 480}, // iPhone, portrait
 				{name: "Default@2x.png", w: 640, h: 960}, // iPhone Retina, portrait
@@ -672,7 +672,7 @@ class IOSPlatform extends PlatformTarget
 			}
 
 			context.HAS_LAUNCH_IMAGE = true;
-		}
+		//}
 
 		System.mkdir(projectDirectory + "/resources");
 		System.mkdir(projectDirectory + "/haxe/build");

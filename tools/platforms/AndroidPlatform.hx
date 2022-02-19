@@ -80,6 +80,8 @@ class AndroidPlatform extends PlatformTarget
 			{
 				haxeParams.push("-D");
 				haxeParams.push("HXCPP_ARMV7");
+				haxeParams.push("-D");
+				haxeParams.push("HAXE_FULL_UNSTRIPPED_NAME=unstripped/armeabi-v7a/libApplicationMain.so");
 				cppParams.push("-DHXCPP_ARMV7");
 				path = sourceSet + "/jniLibs/armeabi-v7a";
 				suffix = "-v7.so";
@@ -88,6 +90,8 @@ class AndroidPlatform extends PlatformTarget
 			{
 				haxeParams.push("-D");
 				haxeParams.push("HXCPP_ARM64");
+				haxeParams.push("-D");
+				haxeParams.push("HAXE_FULL_UNSTRIPPED_NAME=unstripped/arm64-v8a/libApplicationMain.so");
 				cppParams.push("-DHXCPP_ARM64");
 				path = sourceSet + "/jniLibs/arm64-v8a";
 				suffix = "-64.so";

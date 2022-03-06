@@ -6,7 +6,7 @@
 	url = https://github.com/native-toolkit/sdl
 [submodule "project/lib/openal"]
 	path = project/lib/openal
-	url = https://github.com/native-toolkit/openal
+	url = https://github.com/inovento/openal:production
 [submodule "project/lib/curl"]
 	path = project/lib/curl
 	url = https://github.com/native-toolkit/curl
@@ -58,3 +58,6 @@
 [submodule "project/lib/mojoal"]
 	path = project/lib/mojoal
 	url = https://github.com/native-toolkit/mojoal
+[submodule "Submod"]
+	url = https://github.com/inovento/openal.git
+	branch = production
